@@ -1,18 +1,19 @@
 "use client";
 import movies from "./movies";
 import series from "./series";
+import tvserials from "./tvserials";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
 const categories = [
-  { name: "Action", image: "/action.svg" },
-  { name: "Comedy", image: "/comedy.svg" },
-  { name: "Drama", image: "/drama.svg" },
-  { name: "Romance", image: "/romance.svg" },
+  { name: "Action", image: "https://cdn-icons-png.flaticon.com/512/2267/2267658.png" },
+  { name: "Comedy", image: "https://cdn-icons-png.flaticon.com/512/13564/13564245.png" },
+  { name: "Drama", image: "https://cdn-icons-png.flaticon.com/512/2267/2267679.png" },
+  { name: "Romance", image: "https://cdn-icons-png.flaticon.com/512/8468/8468495.png" },
 ];
 
-const allContent = [...movies, ...series];
+const allContent = [...movies, ...series, ...tvserials];
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -78,7 +79,7 @@ export default function Home() {
                   {searchResults.map((item) => (
                     <li key={item.id}>
                       <Link
-                        href={`/${item.type === "series" ? "series" : "movies"}/${item.id}`}
+                        href={`/${item.type === "series" ? "series" : item.type === "tvserial" ? "serials" : "movies"}/${item.id}`}
                         className="flex items-center gap-3 p-3 hover:bg-violet-900 transition-colors"
                         onClick={() => setIsSearchFocused(false)}
                       >
@@ -108,7 +109,7 @@ export default function Home() {
       {/* Hero Banner - Hidden on mobile */}
       <div className="relative hidden md:block h-64 lg:h-96 rounded-xl overflow-hidden mb-8 lg:mb-12">
         <Image
-          src="/banner.jpg"
+          src="https://imgs.search.brave.com/2zKt7nEigSBhWrl1DjLE1l9gP_R8h5hN4vFHxgAG0Aw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZmlsbWliZWF0/LmNvbS82MDB4NDAw/L3BoLWJpZy9pbWdf/b2cvdG9wLWluZGlh/bi1ob3Jyb3ItbW92/aWVzLXJlbGVhc2lu/Zy1pbi0yMDI1LWNo/aWxscy1hbmQtdGhy/aWxscy1hd2FpdDE3/NDQxMTAwMTYuanBn"
           alt="Featured Movie"
           fill
           className="object-cover opacity-70"
@@ -180,6 +181,41 @@ export default function Home() {
                   />
                 </div>
                 <span className="text-violet-400 font-medium text-sm md:text-base">{cat.name}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* TV Serials Section */}
+      <section className="mb-8 lg:mb-12">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-white">TV Serials</h2>
+          {/* You can add a link to a full TV serials page if you want */}
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
+          {tvserials.map((serial) => (
+            <Link
+              key={serial.id}
+              href={`/serials/${serial.id}`}
+              className="group relative rounded-lg overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10"
+            >
+              <div className="relative w-full aspect-[2/3]">
+                <Image
+                  src={serial.poster}
+                  alt={serial.title}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-all duration-300 flex items-center justify-center">
+                  <button className="opacity-0 group-hover:opacity-100 bg-violet-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-full font-medium text-xs md:text-sm transition-opacity duration-300">
+                    View
+                  </button>
+                </div>
+              </div>
+              <div className="p-1 md:p-2">
+                <h3 className="text-white font-medium text-sm md:text-base truncate">{serial.title}</h3>
+                {/* You can add more info here if needed */}
               </div>
             </Link>
           ))}

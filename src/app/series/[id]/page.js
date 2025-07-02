@@ -1,21 +1,21 @@
 "use client";
-import movies from "../../movies";
+import series from "../../series";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function SeriesDetailsPage({ params }) {
   // Only find series
-  const series = movies.find((m) => m.id === params.id && m.type === "series");
+  const serie = series.find((s) => s.id === params.id);
   const [tab, setTab] = useState("Episodes");
   const [selectedSeason, setSelectedSeason] = useState(1);
 
-  if (!series) {
+  if (!serie) {
     return <div className="p-8 text-center text-gray-300">Series not found.</div>;
   }
 
-  const seasons = series.seasons || [1];
-  const episodes = series.episodes && series.episodes[selectedSeason - 1] ? series.episodes[selectedSeason - 1] : [];
+  const seasons = serie.seasons || [1];
+  const episodes = serie.episodes && serie.episodes[selectedSeason - 1] ? serie.episodes[selectedSeason - 1] : [];
 
   return (
     <div className="min-h-screen bg-black text-gray-300 p-8">
@@ -24,23 +24,23 @@ export default function SeriesDetailsPage({ params }) {
         {/* Poster */}
         <div className="flex-shrink-0 w-full lg:w-1/3">
           <Image
-            src={series.poster}
-            alt={series.title}
+            src={serie.poster}
+            alt={serie.title}
             width={400}
             height={600}
             className="rounded-lg object-cover"
           />
         </div>
-
+      
         {/* Details */}
         <div className="flex-1">
-          <h1 className="text-4xl font-bold text-white mb-2">{series.title}</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">{serie.title}</h1>
           <div className="flex items-center gap-4 mb-4">
-            <span className="bg-gray-800 px-3 py-1 rounded text-sm">{series.genre || "Genre"}</span>
-            <span className="bg-gray-800 px-3 py-1 rounded text-sm">{series.year || "Year"}</span>
-            <span className="bg-gray-800 px-3 py-1 rounded text-sm">{series.rating || "No Rating"}</span>
+            <span className="bg-gray-800 px-3 py-1 rounded text-sm">{serie.genre || "Genre"}</span>
+            <span className="bg-gray-800 px-3 py-1 rounded text-sm">{serie.year || "Year"}</span>
+            <span className="bg-gray-800 px-3 py-1 rounded text-sm">{serie.rating || "No Rating"}</span>
           </div>
-          <p className="text-gray-400 mb-6">{series.plot || series.description || series.shortReview}</p>
+          <p className="text-gray-400 mb-6">{serie.plot || serie.description || serie.shortReview}</p>
 
           <div className="mb-6">
             <label className="font-semibold mr-2">Season:</label>
@@ -59,7 +59,7 @@ export default function SeriesDetailsPage({ params }) {
 
           <div className="flex gap-4">
             <a
-              href={series.download || "#"}
+              href={serie.download || "#"}
               download
               className="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-lg font-semibold shadow"
             >
@@ -126,16 +126,16 @@ export default function SeriesDetailsPage({ params }) {
               <h2 className="text-xl font-semibold mb-4">Details</h2>
               <ul className="space-y-2">
                 <li>
-                  <strong>Title:</strong> {series.title}
+                  <strong>Title:</strong> {serie.title}
                 </li>
                 <li>
-                  <strong>Year:</strong> {series.year || "N/A"}
+                  <strong>Year:</strong> {serie.year || "N/A"}
                 </li>
                 <li>
-                  <strong>Genre:</strong> {series.genre || "N/A"}
+                  <strong>Genre:</strong> {serie.genre || "N/A"}
                 </li>
                 <li>
-                  <strong>Rating:</strong> {series.rating || "N/A"}
+                  <strong>Rating:</strong> {serie.rating || "N/A"}
                 </li>
                 <li>
                   <strong>Type:</strong> Series
